@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
@@ -165,6 +166,7 @@ public class MainFragment extends Fragment {
     }
 
     private void loadNextFlag() {
+      answerTextView.setText("");
       enableButtons();
       String currentFLag = quizCountriesList.remove(0);
       String region = currentFLag.substring(0, currentFLag.indexOf('-')); // extracting Africa from Africa-Algeria
@@ -199,6 +201,7 @@ public class MainFragment extends Fragment {
         int column = random.nextInt(2);
 
         Button correctButton = (Button) guessLinearLayout[row].getChildAt(column);
+        correctAnswer = (correctAnswer.substring(correctAnswer.indexOf('-')+1));
         correctButton.setText(correctAnswer);
 
     }
@@ -229,7 +232,12 @@ public class MainFragment extends Fragment {
 
                 }
 
-                loadNextFlag();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadNextFlag();
+                    }
+                }, 1000);
             }
             else{
                 answerTextView.setText("Incorrect Answer");
