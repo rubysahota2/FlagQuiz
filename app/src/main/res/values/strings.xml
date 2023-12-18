@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Flag Quiz</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="question">Question %1$d of %2$d</string>
+    <string name="guess_country">Guess the country</string>
+    <string name="button_1">Button 1</string>
+    <string name="button_2">Button 2</string>
+    <string name="button_3">Button 3</string>
+    <string name="button_4">Button 4</string>
+    <string name="button_5">Button 5</string>
+    <string name="button_6">Button 6</string>
+    <string name="button_7">Button 7</string>
+    <string name="button_8">Button 8</string>
+    <string name="answer">Answer</string>
+    <string name="settings">Settings</string>
+</resources>
