@@ -1,5 +1,8 @@
 package com.example.flagquiz;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -8,10 +11,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -220,24 +227,23 @@ public class MainFragment extends Fragment {
             Button guessButton = (Button) view;
             String guess = (String) guessButton.getText();
 
-            if(guess.equals(correctAnswer)){
+            if(guess.equals(correctAnswer)) {
                 ++completedQuestions;
                 answerTextView.setText(correctAnswer);
                 answerTextView.setTextColor(Color.GREEN);
                 disableButtons();
 
-                if(completedQuestions == 10){
-                    resetQuiz();
-
-
+                if (completedQuestions == 10) {
+                    completedQuestions = 0;
+                    showRestartDialog();
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadNextFlag();
+                        }
+                    }, 1000);
                 }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadNextFlag();
-                    }
-                }, 1000);
             }
             else{
                 answerTextView.setText("Incorrect Answer");
@@ -246,6 +252,22 @@ public class MainFragment extends Fragment {
             }
         }
     };
+
+    private void showRestartDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Quiz Finished");
+        builder.setMessage("Do you want to restart the quiz?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                resetQuiz();
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void disableButtons() {
         for(int row =0; row<guessRows; row++){
